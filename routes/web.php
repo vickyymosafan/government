@@ -8,6 +8,8 @@ use App\Http\Livewire\Auth\Profile;
 use App\Http\Livewire\Pages\Contact;
 use App\Http\Livewire\Pages\NewsAndAnnouncements;
 use App\Http\Livewire\Pages\AnnouncementDetail;
+use App\Http\Livewire\Services\KkRegistration;
+use App\Http\Livewire\Services\AktaRegistration;
 
 /*
 |--------------------------------------------------------------------------
@@ -52,11 +54,7 @@ Route::middleware('auth')->group(function () {
 
 // Public service routes
 Route::prefix('layanan')->group(function () {
-    Route::get('/daftar-kk', function () {
-        return view('services.kk');
-    })->name('services.kk');
+    Route::get('/daftar-kk', KkRegistration::class)->name('services.kk');
 
-    Route::get('/daftar-akta', function () {
-        return view('services.akta');
-    })->name('services.akta');
+    Route::get('/daftar-akta', AktaRegistration::class)->name('services.akta');
 });
