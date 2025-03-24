@@ -49,12 +49,17 @@ Route::middleware('auth')->group(function () {
         Route::get('/status-ktp', function () {
             return view('services.status');
         })->name('services.status');
+
+        // KK Service Routes
+        Route::get('/daftar-kk', KkRegistration::class)->name('services.kk');
+        Route::get('/status-kk', function () {
+            return view('services.status-kk');
+        })->name('services.status-kk');
+
+        // Akta Service Routes
+        Route::get('/daftar-akta', AktaRegistration::class)->name('services.akta');
+        Route::get('/status-akta', function () {
+            return view('services.status-akta');
+        })->name('services.status-akta');
     });
-});
-
-// Public service routes
-Route::prefix('layanan')->group(function () {
-    Route::get('/daftar-kk', KkRegistration::class)->name('services.kk');
-
-    Route::get('/daftar-akta', AktaRegistration::class)->name('services.akta');
 });

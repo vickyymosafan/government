@@ -5,30 +5,33 @@
             <!-- Progress Bar -->
             @php
             $progressPercent = (($step-1)/3) * 100;
-            $progressClass = 'w-[' . $progressPercent . '%]';
             @endphp
-            <div class="absolute top-1/4 w-full h-1 bg-gray-200">
-                <div class="h-full bg-blue-600 transition-all duration-300 {{ $progressClass }}"></div>
+            <div class="absolute top-1/4 w-full h-1.5 bg-gray-100 rounded-full">
+                <div class="h-full bg-blue-600 rounded-full transition-all duration-500 ease-in-out" style="width: {{ $progressPercent }}%"></div>
             </div>
 
-            <!-- Step Circles -->
+            <!-- Step Circles with Enhanced Animation -->
             <div class="flex justify-between relative">
-                <div class="step flex flex-col items-center">
-                    <div class="step-circle w-12 h-12 rounded-full flex items-center justify-center {{ $step >= 1 ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-600' }} font-bold text-lg shadow-md z-10">1</div>
-                    <div class="step-text mt-3 text-sm font-medium {{ $step >= 1 ? 'text-blue-600' : 'text-gray-500' }}">Data KK</div>
-                </div>
-                <div class="step flex flex-col items-center">
-                    <div class="step-circle w-12 h-12 rounded-full flex items-center justify-center {{ $step >= 2 ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-600' }} font-bold text-lg shadow-md z-10">2</div>
-                    <div class="step-text mt-3 text-sm font-medium {{ $step >= 2 ? 'text-blue-600' : 'text-gray-500' }}">Alamat</div>
-                </div>
-                <div class="step flex flex-col items-center">
-                    <div class="step-circle w-12 h-12 rounded-full flex items-center justify-center {{ $step >= 3 ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-600' }} font-bold text-lg shadow-md z-10">3</div>
-                    <div class="step-text mt-3 text-sm font-medium {{ $step >= 3 ? 'text-blue-600' : 'text-gray-500' }}">Dokumen</div>
-                </div>
-                <div class="step flex flex-col items-center">
-                    <div class="step-circle w-12 h-12 rounded-full flex items-center justify-center {{ $step >= 4 ? 'bg-blue-600 text-white' : 'bg-gray-200 text-gray-600' }} font-bold text-lg shadow-md z-10">4</div>
-                    <div class="step-text mt-3 text-sm font-medium {{ $step >= 4 ? 'text-blue-600' : 'text-gray-500' }}">Konfirmasi</div>
-                </div>
+                @foreach (['Data KK', 'Alamat', 'Dokumen', 'Konfirmasi'] as $index => $label)
+                    <div class="step flex flex-col items-center">
+                        <div class="step-circle w-12 h-12 rounded-full flex items-center justify-center 
+                            {{ $step > ($index + 1) ? 'bg-green-500 text-white' : ($step == ($index + 1) ? 'bg-blue-600 text-white' : 'bg-white border-2 border-gray-300 text-gray-500') }} 
+                            font-bold text-lg shadow-md z-10 transition-all duration-300 transform hover:scale-110">
+                            @if($step > ($index + 1))
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                </svg>
+                            @else
+                                {{ $index + 1 }}
+                            @endif
+                        </div>
+                        <div class="step-text mt-3 text-sm font-medium 
+                            {{ $step > ($index + 1) ? 'text-green-500' : ($step == ($index + 1) ? 'text-blue-600' : 'text-gray-500') }}
+                            transition-colors duration-300">
+                            {{ $label }}
+                        </div>
+                    </div>
+                @endforeach
             </div>
         </div>
 
@@ -85,9 +88,9 @@
             <div class="flex justify-end mt-8">
                 <button
                     type="submit"
-                    class="px-6 py-3 bg-blue-600 text-white font-medium rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors"
+                    class="group px-6 py-3 bg-blue-600 text-white font-medium rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-all duration-300 transform hover:translate-x-1"
                 >
-                    Lanjut <span class="ml-2">→</span>
+                    Lanjut <span class="ml-2 group-hover:translate-x-1 transition-transform inline-block">→</span>
                 </button>
             </div>
         </form>
@@ -198,15 +201,15 @@
                 <button
                     type="button"
                     wire:click="previousStep"
-                    class="px-6 py-3 bg-gray-200 text-gray-700 font-medium rounded-lg shadow-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-opacity-50 transition-colors"
+                    class="group px-6 py-3 bg-gray-200 text-gray-700 font-medium rounded-lg shadow-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-opacity-50 transition-all duration-300 transform hover:-translate-x-1"
                 >
-                    <span class="mr-2">←</span> Kembali
+                    <span class="mr-2 group-hover:-translate-x-1 transition-transform inline-block">←</span> Kembali
                 </button>
                 <button
                     type="submit"
-                    class="px-6 py-3 bg-blue-600 text-white font-medium rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors"
+                    class="group px-6 py-3 bg-blue-600 text-white font-medium rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-all duration-300 transform hover:translate-x-1"
                 >
-                    Lanjut <span class="ml-2">→</span>
+                    Lanjut <span class="ml-2 group-hover:translate-x-1 transition-transform inline-block">→</span>
                 </button>
             </div>
         </form>
@@ -224,13 +227,18 @@
                 <div class="form-group">
                     <label class="block text-gray-700 text-sm font-medium mb-2" for="dokumen_ktp">KTP Kepala Keluarga</label>
                     <div class="flex items-center justify-center w-full">
-                        <label for="dokumen_ktp" class="flex flex-col items-center justify-center w-full h-40 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100">
+                        <label for="dokumen_ktp" class="flex flex-col items-center justify-center w-full h-40 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors duration-300">
                             <div class="flex flex-col items-center justify-center pt-5 pb-6">
                                 @if ($dokumen_ktp)
-                                    <p class="mb-2 text-sm text-gray-500">File terpilih: {{ $dokumen_ktp->getClientOriginalName() }}</p>
-                                    <p class="text-xs text-gray-500">Klik untuk mengganti</p>
+                                    <div class="flex items-center space-x-2 text-green-500">
+                                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                        </svg>
+                                        <p class="text-sm">{{ $dokumen_ktp->getClientOriginalName() }}</p>
+                                    </div>
+                                    <p class="mt-2 text-xs text-gray-500">Klik untuk mengganti</p>
                                 @else
-                                    <svg class="w-10 h-10 mb-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <svg class="w-10 h-10 mb-3 text-gray-400 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
                                     </svg>
                                     <p class="mb-2 text-sm text-gray-500">Klik untuk unggah KTP</p>
@@ -246,13 +254,18 @@
                 <div class="form-group">
                     <label class="block text-gray-700 text-sm font-medium mb-2" for="dokumen_akta">Akta Kelahiran (Opsional)</label>
                     <div class="flex items-center justify-center w-full">
-                        <label for="dokumen_akta" class="flex flex-col items-center justify-center w-full h-40 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100">
+                        <label for="dokumen_akta" class="flex flex-col items-center justify-center w-full h-40 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors duration-300">
                             <div class="flex flex-col items-center justify-center pt-5 pb-6">
                                 @if ($dokumen_akta)
-                                    <p class="mb-2 text-sm text-gray-500">File terpilih: {{ $dokumen_akta->getClientOriginalName() }}</p>
-                                    <p class="text-xs text-gray-500">Klik untuk mengganti</p>
+                                    <div class="flex items-center space-x-2 text-green-500">
+                                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                        </svg>
+                                        <p class="text-sm">{{ $dokumen_akta->getClientOriginalName() }}</p>
+                                    </div>
+                                    <p class="mt-2 text-xs text-gray-500">Klik untuk mengganti</p>
                                 @else
-                                    <svg class="w-10 h-10 mb-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <svg class="w-10 h-10 mb-3 text-gray-400 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
                                     </svg>
                                     <p class="mb-2 text-sm text-gray-500">Klik untuk unggah Akta Kelahiran</p>
@@ -268,13 +281,18 @@
                 <div class="form-group">
                     <label class="block text-gray-700 text-sm font-medium mb-2" for="dokumen_pendukung">Dokumen Pendukung Lainnya (Opsional)</label>
                     <div class="flex items-center justify-center w-full">
-                        <label for="dokumen_pendukung" class="flex flex-col items-center justify-center w-full h-40 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100">
+                        <label for="dokumen_pendukung" class="flex flex-col items-center justify-center w-full h-40 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 transition-colors duration-300">
                             <div class="flex flex-col items-center justify-center pt-5 pb-6">
                                 @if ($dokumen_pendukung)
-                                    <p class="mb-2 text-sm text-gray-500">File terpilih: {{ $dokumen_pendukung->getClientOriginalName() }}</p>
-                                    <p class="text-xs text-gray-500">Klik untuk mengganti</p>
+                                    <div class="flex items-center space-x-2 text-green-500">
+                                        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                        </svg>
+                                        <p class="text-sm">{{ $dokumen_pendukung->getClientOriginalName() }}</p>
+                                    </div>
+                                    <p class="mt-2 text-xs text-gray-500">Klik untuk mengganti</p>
                                 @else
-                                    <svg class="w-10 h-10 mb-3 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                    <svg class="w-10 h-10 mb-3 text-gray-400 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
                                     </svg>
                                     <p class="mb-2 text-sm text-gray-500">Klik untuk unggah dokumen lainnya</p>
@@ -292,15 +310,15 @@
                 <button
                     type="button"
                     wire:click="previousStep"
-                    class="px-6 py-3 bg-gray-200 text-gray-700 font-medium rounded-lg shadow-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-opacity-50 transition-colors"
+                    class="group px-6 py-3 bg-gray-200 text-gray-700 font-medium rounded-lg shadow-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-opacity-50 transition-all duration-300 transform hover:-translate-x-1"
                 >
-                    <span class="mr-2">←</span> Kembali
+                    <span class="mr-2 group-hover:-translate-x-1 transition-transform inline-block">←</span> Kembali
                 </button>
                 <button
                     type="submit"
-                    class="px-6 py-3 bg-blue-600 text-white font-medium rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-colors"
+                    class="group px-6 py-3 bg-blue-600 text-white font-medium rounded-lg shadow-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50 transition-all duration-300 transform hover:translate-x-1"
                 >
-                    Lanjut <span class="ml-2">→</span>
+                    Lanjut <span class="ml-2 group-hover:translate-x-1 transition-transform inline-block">→</span>
                 </button>
             </div>
         </form>
@@ -425,23 +443,29 @@
                 <button
                     type="button"
                     wire:click="previousStep"
-                    class="px-6 py-3 bg-gray-200 text-gray-700 font-medium rounded-lg shadow-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-opacity-50 transition-colors"
+                    class="group px-6 py-3 bg-gray-200 text-gray-700 font-medium rounded-lg shadow-md hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-opacity-50 transition-all duration-300 transform hover:-translate-x-1"
                 >
-                    <span class="mr-2">←</span> Kembali
+                    <span class="mr-2 group-hover:-translate-x-1 transition-transform inline-block">←</span> Kembali
                 </button>
                 <button
                     type="button"
                     wire:click="submitRegistration"
-                    class="px-6 py-3 bg-green-600 text-white font-medium rounded-lg shadow-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 transition-colors"
+                    @if(!$agreement) disabled @endif
+                    class="group px-6 py-3 bg-green-600 text-white font-medium rounded-lg shadow-md hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-green-500 focus:ring-opacity-50 transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
                 >
-                    Kirim Pengajuan
+                    <span class="flex items-center">
+                        <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        Kirim Pengajuan
+                    </span>
                 </button>
             </div>
         </div>
         @endif
     </div>
 
-    <!-- Success Modal -->
+    <!-- Enhanced Success Modal -->
     <div x-data="{ showModal: false }"
         x-on:registration-completed.window="
             showModal = true;
@@ -450,30 +474,36 @@
             }, 5000);
         ">
         <div x-show="showModal" 
-            class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4"
+            class="fixed inset-0 bg-black bg-opacity-60 z-50 flex items-center justify-center p-4 backdrop-blur-sm"
             x-transition:enter="transition ease-out duration-300"
             x-transition:enter-start="opacity-0"
             x-transition:enter-end="opacity-100"
             x-transition:leave="transition ease-in duration-200"
             x-transition:leave-start="opacity-100"
             x-transition:leave-end="opacity-0">
-            <div class="bg-white rounded-lg max-w-md w-full p-6 shadow-xl" 
+            <div class="bg-white rounded-xl max-w-md w-full p-8 shadow-2xl transform" 
                 x-transition:enter="transition ease-out duration-300"
-                x-transition:enter-start="opacity-0 transform scale-95"
-                x-transition:enter-end="opacity-100 transform scale-100"
+                x-transition:enter-start="opacity-0 transform scale-95 translate-y-4"
+                x-transition:enter-end="opacity-100 transform scale-100 translate-y-0"
                 x-transition:leave="transition ease-in duration-200"
-                x-transition:leave-start="opacity-100 transform scale-100"
-                x-transition:leave-end="opacity-0 transform scale-95">
+                x-transition:leave-start="opacity-100 transform scale-100 translate-y-0"
+                x-transition:leave-end="opacity-0 transform scale-95 translate-y-4">
                 <div class="text-center">
-                    <div class="mx-auto flex items-center justify-center h-16 w-16 rounded-full bg-green-100">
-                        <svg class="h-8 w-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <div class="mx-auto flex items-center justify-center h-20 w-20 rounded-full bg-green-100 mb-6 animate-bounce">
+                        <svg class="h-10 w-10 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
                         </svg>
                     </div>
-                    <h3 class="mt-4 text-lg font-medium text-gray-900">Pengajuan Berhasil!</h3>
-                    <p class="mt-2 text-sm text-gray-500" x-text="$event.detail?.message || 'Pengajuan Kartu Keluarga berhasil dikirim. Silahkan cek status pengajuan secara berkala.'"></p>
-                    <div class="mt-4">
-                        <p class="text-sm text-gray-500">Anda akan dialihkan dalam <span x-data="{count: 5}" x-init="setInterval(() => { if (count > 0) count--; }, 1000)" x-text="count"></span> detik...</p>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-3">Pengajuan Berhasil!</h3>
+                    <p class="text-gray-600" x-text="$event.detail?.message || 'Pengajuan Kartu Keluarga berhasil dikirim. Silahkan cek status pengajuan secara berkala.'"></p>
+                    <div class="mt-6">
+                        <div class="inline-flex items-center justify-center space-x-2">
+                            <svg class="animate-spin h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                            <p class="text-gray-500">Mengalihkan dalam <span x-data="{count: 5}" x-init="setInterval(() => { if (count > 0) count--; }, 1000)" x-text="count" class="font-bold"></span> detik...</p>
+                        </div>
                     </div>
                 </div>
             </div>
